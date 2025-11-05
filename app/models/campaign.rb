@@ -1,9 +1,11 @@
 class Campaign < ApplicationRecord
+  belongs_to :user
   belongs_to :list
 
   # This line connects the Campaign to the ActionText table
   has_rich_text :body
 
   # Basic validations (must be added manually)
+  validates :user, presence: true
   validates :name, :subject, presence: true
 end

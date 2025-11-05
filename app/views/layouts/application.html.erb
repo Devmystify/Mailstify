@@ -23,6 +23,9 @@
   </head>
 
   <body>
+    <% if Current.user %>
+      <%= link_to "Sign out", session_path, data: { turbo_method: :delete } %>
+    <% end %>
     <%= yield %>
   </body>
 </html>

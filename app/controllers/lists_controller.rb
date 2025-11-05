@@ -3,7 +3,7 @@ class ListsController < ApplicationController
 
   # GET /lists or /lists.json
   def index
-    @lists = List.all
+    @lists = Current.user.lists.all
   end
 
   # GET /lists/1 or /lists/1.json
@@ -12,7 +12,7 @@ class ListsController < ApplicationController
 
   # GET /lists/new
   def new
-    @list = List.new
+    @list = Current.user.lists.new
   end
 
   # GET /lists/1/edit
@@ -21,11 +21,11 @@ class ListsController < ApplicationController
 
   # POST /lists or /lists.json
   def create
-    @list = List.new(list_params)
+    @list = Current.user.lists.new(list_params)
 
     respond_to do |format|
       if @list.save
-        format.html { redirect_to @list, notice: "List was successfully created." }
+        format.html { redirect_to list_url(@list), notice: "List was successfully created." }
         format.json { render :show, status: :created, location: @list }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,7 @@ class ListsController < ApplicationController
   def update
     respond_to do |format|
       if @list.update(list_params)
-        format.html { redirect_to @list, notice: "List was successfully updated.", status: :see_other }
+        format.html { redirect_to list_url(@list), notice: "List was successfully updated." }
         format.json { render :show, status: :ok, location: @list }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,7 +52,7 @@ class ListsController < ApplicationController
     @list.destroy!
 
     respond_to do |format|
-      format.html { redirect_to lists_path, notice: "List was successfully destroyed.", status: :see_other }
+      format.html { redirect_to lists_url, notice: "List was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -60,7 +60,10 @@ class ListsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_list
-      @list = List.find(params.expect(:id))
+      # Find list scoped by user and rescue if not found/unauthorized
+      @list = Current.user.lists.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to lists_url, alert: "List not found or unauthorized access."
     end
 
     # Only allow a list of trusted parameters through.
