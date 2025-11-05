@@ -1,9 +1,10 @@
-<%= form_with(model: subscriber) do |form| %>
-  <% if subscriber.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(subscriber.errors.count, "error") %> prohibited this subscriber from being saved:</h2>
+<%= form_with(model: subscriber, url: subscribers_path, class: "space-y-4") do |form| %>
+  <%= form.hidden_field :list_id, value: list.id %>
 
-      <ul>
+  <% if subscriber.errors.any? %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+      <p class="font-bold">Errors preventing submission:</p>
+      <ul class="list-disc list-inside mt-1">
         <% subscriber.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -12,21 +13,16 @@
   <% end %>
 
   <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.text_field :email %>
+    <%= form.label :name, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_field :name, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
   </div>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
+    <%= form.label :email, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.email_field :email, required: true, class: "mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" %>
   </div>
 
-  <div>
-    <%= form.label :list_id, style: "display: block" %>
-    <%= form.text_field :list_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="flex justify-end">
+    <%= form.submit "Subscribe", class: "bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded shadow transition duration-150 cursor-pointer" %>
   </div>
 <% end %>

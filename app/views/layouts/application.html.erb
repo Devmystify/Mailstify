@@ -20,12 +20,27 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body>
-    <% if Current.user %>
-      <%= link_to "Sign out", session_path, data: { turbo_method: :delete } %>
-    <% end %>
-    <%= yield %>
+  <body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto p-4 md:p-8">
+      <header class="mb-8 border-b pb-4 flex items-center justify-between">
+        <div>
+          <h1 class="text-4xl font-extrabold text-blue-800">Mailstify</h1>
+          <p class="text-gray-500">A Zero-Dependency Mailchimp Clone</p>
+        </div>
+        <% if Current.user %>
+          <%= link_to "Sign out", session_path, data: { turbo_method: :delete },
+              class: "text-sm text-gray-600 hover:text-gray-800" %>
+        <% end %>
+      </header>
+
+      <main>
+        <div class="max-w-7xl mx-auto">
+          <%= yield %>
+        </div>
+      </main>
+    </div>
   </body>
 </html>

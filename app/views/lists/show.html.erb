@@ -1,10 +1,29 @@
-<p style="color: green"><%= notice %></p>
+<h2 class="text-3xl font-bold text-gray-800 mb-6">Audience: <%= @list.name %></h2>
 
-<%= render @list %>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <div class="lg:col-span-1">
+    <div class="bg-white p-6 shadow-md rounded-lg">
+      <h3 class="text-xl font-semibold mb-4 text-gray-700">Add New Subscriber</h3>
+      <%= turbo_frame_tag "new_subscriber_form" do %>
+        <%= render 'subscribers/form', list: @list, subscriber: Subscriber.new %>
+      <% end %>
+    </div>
+  </div>
 
-<div>
-  <%= link_to "Edit this list", edit_list_path(@list) %> |
-  <%= link_to "Back to lists", lists_path %>
+  <div class="lg:col-span-2">
+    <div class="bg-white p-6 shadow-md rounded-lg">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="text-xl font-semibold text-gray-700">
+          Subscribers (<span id="subscriber-count"><%= @list.subscribers.count %></span>)
+        </h3>
+        <%= link_to "New Campaign", new_campaign_path(list_id: @list.id), class: "text-sm text-blue-600 hover:underline" %>
+      </div>
 
-  <%= button_to "Destroy this list", @list, method: :delete %>
+      <%= turbo_frame_tag "subscribers_list" do %>
+        <%= render 'subscribers/subscribers_table', list: @list, subscribers: @list.subscribers.order(created_at: :desc) %>
+      <% end %>
+    </div>
+  </div>
 </div>
+
+<%= link_to "Back to Lists", lists_path, class: "mt-8 inline-block text-blue-600 hover:text-blue-800" %>
