@@ -1,0 +1,23 @@
+<div class="flex justify-between items-start mb-6 border-b pb-4">
+  <div>
+    <h2 class="text-3xl font-extrabold text-gray-800"><%= @campaign.name %></h2>
+    <p class="text-lg text-gray-600">Subject: <%= @campaign.subject %></p>
+    <p class="text-sm text-gray-500">Target List: <%= @campaign.list.name %></p>
+  </div>
+
+  <div class="flex space-x-3">
+    <button class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md cursor-pointer opacity-50" disabled>
+      Send Campaign (Draft)
+    </button>
+    <%= link_to "Edit", edit_campaign_path(@campaign), class: "py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-gray-700 hover:bg-gray-100" %>
+    <%= link_to "Back to Lists", lists_path, class: "py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-gray-700 hover:bg-gray-100" %>
+  </div>
+</div>
+
+<div class="bg-white p-8 shadow-xl rounded-lg border-2 border-gray-100">
+  <h3 class="text-xl font-bold mb-4 border-b pb-2">Email Preview</h3>
+
+  <div class="prose max-w-none">
+    <%= @campaign.body %>
+  </div>
+</div>
