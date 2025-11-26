@@ -1,0 +1,7 @@
+Hi <%= @subscriber.name || 'there' %>,
+
+<%= @campaign.body.to_plain_text %>
+
+---
+
+You received this email because you subscribed to <%= @campaign.list.name %>.
