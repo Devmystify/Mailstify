@@ -65,6 +65,22 @@ class CampaignsController < ApplicationController
     end
   end
 
+  def send_campaign
+    @campaign = Current.user.campaigns.find(params[:id])
+
+    # Basic check: Ensure we have content before enqueuing
+    unless @campaign.body.present?
+      redirect_to @campaign, alert: "Can't dispatch an empty campaign!" and return
+    end
+
+    # The zero-dependency magic line: Enqueue the job!
+    CampaignDispatchJob.perform_later(@campaign)
+
+    redirect_to @campaign, notice: "Campaign dispatch job enqueued! Emails will be sent shortly."
+  rescue ActiveRecord::RecordNotFound
+    redirect_to lists_url, alert: "Campaign not found or unauthorized access."
+  end
+
   private
     # Scopes the Campaign lookup to the current user
     def set_campaign

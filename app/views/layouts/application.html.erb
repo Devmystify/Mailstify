@@ -25,6 +25,15 @@
 
   <body class="bg-gray-50 min-h-screen">
     <div class="container mx-auto p-4 md:p-8">
+
+      <% flash.each do |type, msg| %>
+        <% css_class = type.to_s == 'notice' ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700' %>
+        <div class="<%= css_class %> px-4 py-3 rounded relative mb-4 border" role="alert">
+          <strong class="font-bold"><%= type.capitalize %>:</strong>
+          <span class="block sm:inline"><%= msg %></span>
+        </div>
+      <% end %>
+
       <header class="mb-8 border-b pb-4 flex items-center justify-between">
         <div>
           <h1 class="text-4xl font-extrabold text-blue-800">Mailstify</h1>

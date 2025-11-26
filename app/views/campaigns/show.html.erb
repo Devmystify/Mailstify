@@ -6,9 +6,11 @@
   </div>
 
   <div class="flex space-x-3">
-    <button class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md cursor-pointer opacity-50" disabled>
-      Send Campaign (Draft)
-    </button>
+    <%= button_to "Send Campaign Now",
+                  send_campaign_campaign_path(@campaign),
+                  method: :post,
+                  data: { turbo_confirm: "Are you sure you want to send this to #{@campaign.list.subscribers.count} subscribers?" },
+                  class: "bg-green-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md cursor-pointer hover:bg-green-700 transition duration-150" %>
     <%= link_to "Edit", edit_campaign_path(@campaign), class: "py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-gray-700 hover:bg-gray-100" %>
     <%= link_to "Back to Lists", lists_path, class: "py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-gray-700 hover:bg-gray-100" %>
   </div>
