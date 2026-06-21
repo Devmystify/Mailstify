@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   has_many :lists,     dependent: :destroy
   has_many :campaigns, dependent: :destroy
+  has_many :subscribers, through: :lists
 end

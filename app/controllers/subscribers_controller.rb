@@ -3,7 +3,7 @@ class SubscribersController < ApplicationController
 
   # GET /subscribers or /subscribers.json
   def index
-    @subscribers = Subscriber.all
+    @subscribers = Current.user.subscribers
   end
 
   # GET /subscribers/1 or /subscribers/1.json
