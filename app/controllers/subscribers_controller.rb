@@ -99,9 +99,7 @@ class SubscribersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_subscriber
-      @subscriber = Subscriber.joins(:list)
-        .where(lists: { user_id: Current.user.id })
-        .find(params[:id])
+      @subscriber = Current.user.subscribers.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       redirect_to lists_url, alert: "Subscriber not found or unauthorized."
     end
